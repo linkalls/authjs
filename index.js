@@ -19,4 +19,11 @@ const login = async (pw, hashPw) => {
 
 //* さっきのhash後の値つかう　$2b$14$0bxe.vFU08sTGbSJE9ak0uDilm9ijGshRkKUk102u8injVkUUI15O
 
-login("123456","$2b$14$0bxe.vFU08sTGbSJE9ak0uDilm9ijGshRkKUk102u8injVkUUI15O")
+// login("123456","$2b$14$0bxe.vFU08sTGbSJE9ak0uDilm9ijGshRkKUk102u8injVkUUI15O")
+
+const hashPassword = async (pw) => {
+  const hash = await bcrypt.hash(pw, 10)
+  console.log(hash)
+}
+
+hashPassword("123456")

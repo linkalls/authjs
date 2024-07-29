@@ -165,3 +165,11 @@ passwordのチェックには
 bcrypt.compare(myplanetextPassword,hash,function(err,result){
   // result === true をここでやってる
 })
+```
+saltとhashは一回でできる
+```js
+bcrypt.hash(planePassword,saltRounds,function(err,hash){
+
+})
+
+```
