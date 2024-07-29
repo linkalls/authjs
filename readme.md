@@ -23,7 +23,7 @@
 
 #### ハッシュ関数とは
 
-任意のサイズの入力データを固定サイズの出力地に変換する関数
+任意のサイズの入力データを固定サイズの出力値に変換する関数
 | 入力値 | ハッシュ関数後の結果 |
 |--------|--------------|
 | `hello` | `f3wff3f4g4g5jy7kl8ul6j4et3w4t2t` |
@@ -56,7 +56,7 @@ Math.abs(x); //=> 10
 
 - 入力によって値が大きく変化する
 
-| 入力文字列 | SHA-256 ハッシュ値                                                 |
+| 入力文字列 | ハッシュ値                                                 |
 | :--------- | ------------------------------------------------------------------ |
 | `hello`    | `2cf24dba5fb0a30e26e83b2ac5b0e63b7e1d6d7e9a4bfb57e2d8c7f41a9de49d` |
 | `hello!`   | `7f9d4e388dd22d4315c36f7a67c9c446e5b885a0c1eec11dc522f8bba89c5e78` |
@@ -79,7 +79,7 @@ password: 123456;
 123456 とかはよく使いまわされてて同じハッシュ関数に同じ入力値を突っ込んだら同じ値が返ってくる。
 世の中のハッシュ関数が bcrypt しかないと
 これだとハッシュ値を見たあとよく使われてるパスワードを bcrypt にかけてみると一致しちゃうかもしれない
-\*\*これを解決するために salt が作られた
+**これを解決するために salt が作られた**
 
 ### salt とは
 
@@ -99,3 +99,64 @@ password: 123456;
 ### bcrypt とは
 
 パスワードハッシュ化関数
+jsの場合は2種類ある
+- bcrypt(どこでも動く 全部js おそめ)
+- bcrpytjs(c++でできててバックエンドのみ　高速)
+##### 今回はbcryptにする
+```js
+bcrypt.genSalt(saltRounds)// これでsalt作る
+bcrypt.hash //* これでハッシュ生成
+```
+saltRoundsは難易度みたいなもん 10とか12が多い
+
+```js
+const bcrypt = require("bcrypt")
+
+const hashPassword = async () => {
+ const salt = await bcrypt.genSalt(10)
+console.log(salt)
+}
+hashPassword()
+```
+これを2回やってみたら
+
+```js
+$2b$10$GJYiiq4KmExZCh1he/A3q.
+$2b$10$AQfx7mDBrem6QEyn77lJP.
+```
+Usage
+```js
+
+async (recommended)
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
+To hash a password:
+Technique 1 (generate a salt and hash on separate function calls):
+
+bcrypt.genSalt(saltRounds, function(err, salt) {
+    bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+        // Store hash in your password DB.
+    });
+});
+
+```
+
+index.jsのとき
+```js
+const bcrypt = require("bcrypt")
+
+const hashPassword = async (pw) => {
+  const salt = await bcrypt.genSalt(10)
+  const hash = await bcrypt.hash(pw, salt)
+   console.log(salt)
+  console.log(hash)
+}
+hashPassword("123456")
+```
+結果は
+```js
+$2b$10$O.70Y7GdmlOHQWTcqtdUuu
+$2b$10$O.70Y7GdmlOHQWTcqtdUuuEzYfiqz2/tP00WBYk/xqEzDdQS9Tq5K
+```
