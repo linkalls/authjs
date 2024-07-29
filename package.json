@@ -1,0 +1,12 @@
+{
+  "name": "auth",
+  "version": "1.0.0",
+  "description": "認証はユーザーが**誰であるか**を確認するプロセス。\r ユーザー名とパスワードの組み合わせとか本人しかわからない質問などを組み合わせることがある",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
