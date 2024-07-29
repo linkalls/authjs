@@ -160,3 +160,8 @@ hashPassword("123456")
 $2b$10$O.70Y7GdmlOHQWTcqtdUuu
 $2b$10$O.70Y7GdmlOHQWTcqtdUuuEzYfiqz2/tP00WBYk/xqEzDdQS9Tq5K
 ```
+passwordのチェックには
+```js
+bcrypt.compare(myplanetextPassword,hash,function(err,result){
+  // result === true をここでやってる
+})
